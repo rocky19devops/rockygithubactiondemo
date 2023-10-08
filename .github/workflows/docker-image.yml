@@ -3,7 +3,7 @@ name: Build nodejs app and deploy into argocd
 on:
   push:
     branches:
-      - master
+      - main
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
