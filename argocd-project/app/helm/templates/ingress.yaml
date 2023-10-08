@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  creationTimestamp: null
+  name: rockynodeapp
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: www.rocky.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: rockynodeservice
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
