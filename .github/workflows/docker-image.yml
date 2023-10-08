@@ -6,8 +6,8 @@ on:
       - main
 
 env:
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKERHUB_KEY: ${{ secrets.DOCKER_TOKEN}}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_KEY: ${{ secrets.DOCKERHUB_TOKEN}}
   IMAGE_NAME: rockynodeapps
 
 jobs:
