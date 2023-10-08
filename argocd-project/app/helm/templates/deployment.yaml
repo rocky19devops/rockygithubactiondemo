@@ -15,7 +15,7 @@ spec:
                 app: rockynodeapp
         spec:
             containers:
-                - name: 
+                - name: rockynodeapp
                   image: rocky19devops/rockynodeapps:{{ .Values.env.APP_VERSION }}
                   ports:
                     - containerPort: 3000
