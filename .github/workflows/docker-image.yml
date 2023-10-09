@@ -4,8 +4,12 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: {}
-
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        default: DEV
+        required: true
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_KEY: ${{ secrets.DOCKERHUB_TOKEN}}
