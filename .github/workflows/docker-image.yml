@@ -1,5 +1,8 @@
 name: test environment
 on:
+  push:
+    branches:
+      - main
   release:
     types: [released]
 
