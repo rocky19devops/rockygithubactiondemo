@@ -23,7 +23,7 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-	environment: production
+    environment: production
 	
 	steps: 
 	  - name: testing the environment
