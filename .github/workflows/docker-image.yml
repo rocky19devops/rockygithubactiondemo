@@ -1,14 +1,56 @@
-name: test environment
+name: Build nodejs app and deploy into argocd
+
 on:
   push:
     branches:
       - main
-  release:
-    types: [released]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+env:
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_KEY: ${{ secrets.DOCKERHUB_TOKEN}}
+  IMAGE_NAME: rockynodeapps
 
 jobs:
-  run:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    environment: production
+	environment: production
+	
+	steps: 
+	  - name: testing the environment
+	    run: echo ${{ inputs.logLevel }}
+
     steps:
-      - run: echo releasing
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_KEY }}
+
+      - name: Build Docker image
+        run: cd argocd-project/app && docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+
+      - name: Push Docker image
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Update the argocd deployment values
+        run: |
+          cd argocd-project/app/helm
+          sed -i 's|APP_VERSION:.*|APP_VERSION: '${{ github.sha }}'|' values.yaml
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add values.yaml
+          git commit -m "Update values.yaml"
+          git push
