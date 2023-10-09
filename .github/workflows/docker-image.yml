@@ -25,11 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 	
-	steps: 
-	  - name: testing the environment
-	    run: echo ${{ inputs.logLevel }}
-
     steps:
+      - name: testing the environment
+        run: echo ${{ inputs.logLevel }}
+
       - name: Checkout code
         uses: actions/checkout@v3
 
