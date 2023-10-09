@@ -6,15 +6,9 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
+      target-env:
         required: true
-        default: 'warning'
-        type: choice
-        options:
-        - info
-        - warning
-        - debug
+        type: string
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_KEY: ${{ secrets.DOCKERHUB_TOKEN}}
